@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NijiStream — Your anime, everywhere.</title>
-  <meta name="description" content="Open-source, cross-platform anime streaming app built with Flutter. Browse, watch, track, and download anime on Android, Windows, and Linux.">
-  <meta name="theme-color" content="#A855F7">
+  <title>CineStream — Your movies & TV, everywhere.</title>
+  <meta name="description"
+    content="Open-source, cross-platform movie and TV show streaming app built with Flutter. Browse, watch, and download movies and series on Android, Windows, and Linux.">
+  <meta name="theme-color" content="#06B6D4">
 
   <!-- Open Graph -->
-  <meta property="og:title" content="NijiStream">
-  <meta property="og:description" content="Your anime, everywhere. Open-source cross-platform anime streaming app.">
+  <meta property="og:title" content="CineStream">
+  <meta property="og:description" content="Your movies & TV, everywhere. Open-source cross-platform streaming app.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://usmanbutt-dev.github.io/NijiStream/">
+  <meta property="og:url" content="https://usmanbutt-dev.github.io/CineStream/">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,25 +22,32 @@
 
   <style>
     :root {
-      --primary: #A855F7;
-      --primary-light: #C084FC;
-      --primary-dark: #7C3AED;
-      --bg: #0F0F14;
-      --surface: #1A1A24;
-      --surface-variant: #24243A;
-      --text-primary: #F0F0F5;
-      --text-secondary: #A0A0B0;
-      --text-tertiary: #707080;
+      --primary: #06B6D4;
+      --primary-light: #22D3EE;
+      --primary-dark: #0891B2;
+      --accent: #8B5CF6;
+      --bg: #0A0E14;
+      --surface: #141A24;
+      --surface-variant: #1C2432;
+      --text-primary: #F0F2F5;
+      --text-secondary: #9CA3B0;
+      --text-tertiary: #5C6370;
       --success: #22C55E;
       --info: #3B82F6;
       --warning: #FBBF24;
       --error: #EF4444;
-      --divider: #2A2A3A;
+      --divider: #1E2836;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-    html { scroll-behavior: smooth; }
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -48,8 +57,14 @@
       overflow-x: hidden;
     }
 
-    a { color: var(--primary-light); text-decoration: none; }
-    a:hover { text-decoration: underline; }
+    a {
+      color: var(--primary-light);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
 
     /* ── Nav ── */
     nav {
@@ -60,7 +75,7 @@
       z-index: 100;
       padding: 1rem 2rem;
       backdrop-filter: blur(20px);
-      background: rgba(15, 15, 20, 0.8);
+      background: rgba(10, 14, 20, 0.85);
       border-bottom: 1px solid var(--divider);
       display: flex;
       align-items: center;
@@ -76,7 +91,9 @@
       gap: 0.5rem;
     }
 
-    .nav-brand span { color: var(--primary); }
+    .nav-brand span {
+      color: var(--primary);
+    }
 
     .nav-links {
       display: flex;
@@ -91,7 +108,10 @@
       transition: color 0.2s;
     }
 
-    .nav-links a:hover { color: var(--text-primary); text-decoration: none; }
+    .nav-links a:hover {
+      color: var(--text-primary);
+      text-decoration: none;
+    }
 
     /* ── Hero ── */
     .hero {
@@ -113,22 +133,25 @@
       transform: translateX(-50%);
       width: 600px;
       height: 600px;
-      background: radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(6, 182, 212, 0.12) 0%, rgba(139, 92, 246, 0.06) 40%, transparent 70%);
       pointer-events: none;
     }
 
-    .hero-content { position: relative; max-width: 700px; }
+    .hero-content {
+      position: relative;
+      max-width: 700px;
+    }
 
     .hero-badge {
       display: inline-block;
       padding: 0.35rem 1rem;
       border-radius: 100px;
-      background: rgba(168, 85, 247, 0.12);
+      background: rgba(6, 182, 212, 0.1);
       color: var(--primary-light);
       font-size: 0.8rem;
       font-weight: 600;
       margin-bottom: 1.5rem;
-      border: 1px solid rgba(168, 85, 247, 0.2);
+      border: 1px solid rgba(6, 182, 212, 0.2);
     }
 
     .hero h1 {
@@ -140,7 +163,7 @@
     }
 
     .hero h1 .gradient {
-      background: linear-gradient(135deg, var(--primary-light), var(--primary), var(--info));
+      background: linear-gradient(135deg, var(--primary-light), var(--primary), var(--accent));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -183,7 +206,7 @@
       background: var(--primary-light);
       text-decoration: none;
       transform: translateY(-1px);
-      box-shadow: 0 8px 24px rgba(168, 85, 247, 0.3);
+      box-shadow: 0 8px 24px rgba(6, 182, 212, 0.3);
     }
 
     .btn-outline {
@@ -244,7 +267,7 @@
     }
 
     .feature-card:hover {
-      border-color: rgba(168, 85, 247, 0.3);
+      border-color: rgba(6, 182, 212, 0.3);
       transform: translateY(-2px);
     }
 
@@ -376,8 +399,13 @@
       color: var(--text-secondary);
     }
 
-    .code-block .comment { color: var(--text-tertiary); }
-    .code-block .cmd { color: var(--primary-light); }
+    .code-block .comment {
+      color: var(--text-tertiary);
+    }
+
+    .code-block .cmd {
+      color: var(--primary-light);
+    }
 
     /* ── Footer ── */
     footer {
@@ -388,7 +416,9 @@
       font-size: 0.85rem;
     }
 
-    footer a { color: var(--text-secondary); }
+    footer a {
+      color: var(--text-secondary);
+    }
 
     .footer-links {
       display: flex;
@@ -400,27 +430,42 @@
 
     /* ── Responsive ── */
     @media (max-width: 640px) {
-      nav { padding: 0.75rem 1rem; }
-      .nav-links { display: none; }
-      .features-grid { grid-template-columns: 1fr; }
-      .platform-row { gap: 1.5rem; }
-      .hero { padding: 5rem 1.5rem 3rem; }
+      nav {
+        padding: 0.75rem 1rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .platform-row {
+        gap: 1.5rem;
+      }
+
+      .hero {
+        padding: 5rem 1.5rem 3rem;
+      }
     }
   </style>
 </head>
+
 <body>
 
   <!-- ── Nav ── -->
   <nav>
     <div class="nav-brand">
-      <span>Niji</span>Stream
+      <span>Cine</span>Stream
     </div>
     <ul class="nav-links">
       <li><a href="#features">Features</a></li>
       <li><a href="#platforms">Platforms</a></li>
       <li><a href="#tech">Tech Stack</a></li>
       <li><a href="#build">Build</a></li>
-      <li><a href="https://github.com/usmanbutt-dev/NijiStream">GitHub</a></li>
+      <li><a href="https://github.com/usmanbutt-dev/CineStream">GitHub</a></li>
     </ul>
   </nav>
 
@@ -428,18 +473,23 @@
   <section class="hero">
     <div class="hero-content">
       <div class="hero-badge">Open Source &middot; MIT License</div>
-      <h1>Your anime, <span class="gradient">everywhere.</span></h1>
+      <h1>Your movies &amp; TV, <span class="gradient">everywhere.</span></h1>
       <p>
-        Browse, watch, track, and download anime from a single app.
+        Browse, watch, and download movies and TV shows from a single app.
         Extension-powered, privacy-first, and beautiful on every platform.
       </p>
       <div class="hero-buttons">
-        <a href="https://github.com/usmanbutt-dev/NijiStream/releases" class="btn btn-primary">
-          <svg viewBox="0 0 24 24"><path d="M5 20h14v-2H5v2zm7-18L5.33 9h3.84v6h3.66V9h3.84L12 2z"/></svg>
+        <a href="https://github.com/usmanbutt-dev/CineStream/releases" class="btn btn-primary">
+          <svg viewBox="0 0 24 24">
+            <path d="M5 20h14v-2H5v2zm7-18L5.33 9h3.84v6h3.66V9h3.84L12 2z" />
+          </svg>
           Download
         </a>
-        <a href="https://github.com/usmanbutt-dev/NijiStream" class="btn btn-outline">
-          <svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.164 6.839 9.49.5.09.682-.217.682-.482 0-.237-.009-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.577.688.48C19.138 20.16 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+        <a href="https://github.com/usmanbutt-dev/CineStream" class="btn btn-outline">
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.164 6.839 9.49.5.09.682-.217.682-.482 0-.237-.009-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.577.688.48C19.138 20.16 22 16.418 22 12c0-5.523-4.477-10-10-10z" />
+          </svg>
           View Source
         </a>
       </div>
@@ -449,37 +499,43 @@
   <!-- ── Features ── -->
   <section id="features" class="features">
     <div class="section-label">Features</div>
-    <h2 class="section-title">Everything you need to watch anime</h2>
+    <h2 class="section-title">Everything you need to stream</h2>
     <div class="features-grid">
       <div class="feature-card">
-        <div class="feature-icon" style="background: rgba(168, 85, 247, 0.12); color: #C084FC;">&#x1F50C;</div>
+        <div class="feature-icon" style="background: rgba(6, 182, 212, 0.12); color: #22D3EE;">&#x1F50C;</div>
         <h3>Extension System</h3>
-        <p>Community-driven JavaScript extensions power all content. Install sources from repos, or write your own using the simple JS API.</p>
+        <p>Community-driven JavaScript extensions power all content. Install sources from repos, or write your own using
+          the simple JS API.</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon" style="background: rgba(59, 130, 246, 0.12); color: #60A5FA;">&#x1F4FA;</div>
         <h3>Built-in Player</h3>
-        <p>Hardware-accelerated video with libmpv. HLS adaptive streaming, quality selection, subtitle tracks, and resume-from-where-you-left-off.</p>
+        <p>Hardware-accelerated video with libmpv. HLS adaptive streaming, quality selection, subtitle tracks, and
+          resume-from-where-you-left-off.</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon" style="background: rgba(34, 197, 94, 0.12); color: #4ADE80;">&#x1F4DA;</div>
-        <h3>Library &amp; Tracking</h3>
-        <p>Organize your collection with status tracking. Sync progress to AniList and MyAnimeList automatically as you watch.</p>
+        <h3>Library &amp; Watchlist</h3>
+        <p>Organize your collection with status tracking. Mark movies as watched, plan TV shows to binge, and keep your
+          progress synced.</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon" style="background: rgba(251, 191, 36, 0.12); color: #FCD34D;">&#x2B07;&#xFE0F;</div>
         <h3>Offline Downloads</h3>
-        <p>Download episodes in your preferred quality with subtitles. Pure Dart HLS downloader &mdash; no ffmpeg required.</p>
+        <p>Download movies and episodes in your preferred quality with subtitles. Pure Dart HLS downloader &mdash; no
+          ffmpeg required.</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon" style="background: rgba(236, 72, 153, 0.12); color: #F472B6;">&#x1F3A8;</div>
         <h3>Beautiful Dark UI</h3>
-        <p>Modern Material 3 design with customizable accent colors and AMOLED black mode. Looks great on every screen size.</p>
+        <p>Modern Material 3 design with customizable accent colors and AMOLED black mode. Looks great on every screen
+          size.</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon" style="background: rgba(239, 68, 68, 0.12); color: #F87171;">&#x1F310;</div>
         <h3>Cross-Platform</h3>
-        <p>One codebase, three platforms. Runs natively on Android, Windows, and Linux with platform-optimized performance.</p>
+        <p>One codebase, three platforms. Runs natively on Android, Windows, and Linux with platform-optimized
+          performance.</p>
       </div>
     </div>
   </section>
@@ -553,8 +609,8 @@
     <h2 class="section-title">Build from source</h2>
     <div class="code-block">
       <span class="comment"># Clone the repository</span><br>
-      <span class="cmd">git clone</span> https://github.com/usmanbutt-dev/NijiStream.git<br>
-      <span class="cmd">cd</span> NijiStream<br>
+      <span class="cmd">git clone</span> https://github.com/usmanbutt-dev/CineStream.git<br>
+      <span class="cmd">cd</span> CineStream<br>
       <br>
       <span class="comment"># Install dependencies</span><br>
       <span class="cmd">flutter pub get</span><br>
@@ -572,16 +628,17 @@
   <!-- ── Footer ── -->
   <footer>
     <div class="footer-links">
-      <a href="https://github.com/usmanbutt-dev/NijiStream">Source Code</a>
-      <a href="https://github.com/usmanbutt-dev/NijiStream/releases">Releases</a>
-      <a href="https://github.com/usmanbutt-dev/NijiStream/issues">Issues</a>
-      <a href="https://github.com/usmanbutt-dev/NijiStream/blob/main/LICENSE">MIT License</a>
+      <a href="https://github.com/usmanbutt-dev/CineStream">Source Code</a>
+      <a href="https://github.com/usmanbutt-dev/CineStream/releases">Releases</a>
+      <a href="https://github.com/usmanbutt-dev/CineStream/issues">Issues</a>
+      <a href="https://github.com/usmanbutt-dev/CineStream/blob/main/LICENSE">MIT License</a>
     </div>
     <p>
-      NijiStream does not host or distribute any media content.<br>
+      CineStream does not host or distribute any media content.<br>
       All content is sourced through third-party community extensions.
     </p>
   </footer>
 
 </body>
+
 </html>
