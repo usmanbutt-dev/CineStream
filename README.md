@@ -1,23 +1,22 @@
-# NijiStream 🌈
+# CineStream 🎬
 
-> Your anime, everywhere.
+> Your movies & TV, everywhere.
 
-NijiStream is an open-source, cross-platform anime streaming and management app built with Flutter. Browse, watch, track, and download anime — all from a single app on Android, Windows, and Linux.
+CineStream is an open-source, cross-platform movie and TV show streaming app built with Flutter. Browse, watch, track, and download movies & series — all from a single app on Android, Windows, and Linux.
 
 ## Download
 
-[![Android](https://img.shields.io/badge/Android-APK-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://github.com/usmanbutt-dev/NijiStream/releases/latest/download/NijiStream-android.apk)
-[![Windows](https://img.shields.io/badge/Windows-ZIP-0078D4?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/usmanbutt-dev/NijiStream/releases/latest/download/NijiStream-windows-x64.zip)
-[![Linux](https://img.shields.io/badge/Linux-tar.gz-FCC624?style=for-the-badge&logo=linux&logoColor=black)](https://github.com/usmanbutt-dev/NijiStream/releases/latest/download/NijiStream-linux-x64.tar.gz)
+[![Android](https://img.shields.io/badge/Android-APK-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://github.com/usmanbutt-dev/CineStream/releases/latest/download/CineStream-android.apk)
+[![Windows](https://img.shields.io/badge/Windows-ZIP-0078D4?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/usmanbutt-dev/CineStream/releases/latest/download/CineStream-windows-x64.zip)
+[![Linux](https://img.shields.io/badge/Linux-tar.gz-FCC624?style=for-the-badge&logo=linux&logoColor=black)](https://github.com/usmanbutt-dev/CineStream/releases/latest/download/CineStream-linux-x64.tar.gz)
 
-> These links always point to the latest release. See [all releases](https://github.com/usmanbutt-dev/NijiStream/releases) for older versions.
+> These links always point to the latest release. See [all releases](https://github.com/usmanbutt-dev/CineStream/releases) for older versions.
 
 ## Features
 
-- 🔌 **Extensible** — Community-driven JavaScript extensions for anime sources
+- 🔌 **Extensible** — Community-driven JavaScript extensions for movie & TV sources
 - 📺 **Built-in Player** — Hardware-accelerated video with HLS/DASH, subtitles, quality selection
-- 📊 **Tracking** — Sync your progress with AniList, MyAnimeList, and Kitsu
-- ⬇️ **Downloads** — Save episodes for offline viewing
+- ⬇️ **Downloads** — Save movies and episodes for offline viewing
 - 📚 **Library** — Organize your collection with status tracking
 - 🎨 **Beautiful** — Modern dark UI with Material 3 design
 
@@ -88,7 +87,7 @@ sudo dnf install -y \
 
 ## Legal Disclaimer
 
-NijiStream does not provide, host, or distribute any media content. All content is sourced through third-party extensions created and maintained by the community. Users are responsible for ensuring they access content through legal means. NijiStream developers are not responsible for content accessed through extensions.
+CineStream does not provide, host, or distribute any media content. All content is sourced through third-party extensions created and maintained by the community. Users are responsible for ensuring they access content through legal means. CineStream developers are not responsible for content accessed through extensions.
 
 ## License
 
