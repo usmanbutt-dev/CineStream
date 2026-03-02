@@ -1,0 +1,36 @@
+# NijiStream — Dart analysis options.
+#
+# Extends flutter_lints (the Flutter recommended set) and adds stricter
+# rules appropriate for a production application. Rules are commented with
+# the reason they were enabled.
+
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  errors:
+    # Treat these as errors so CI will fail on them.
+    missing_return: error
+    dead_code: warning
+    unused_import: warning
+    unused_local_variable: warning
+
+linter:
+  rules:
+    # ── Style ────────────────────────────────────────────────────────────────
+    prefer_single_quotes: true          # consistent string literals
+    require_trailing_commas: true       # cleaner diffs in multi-line calls
+
+    # ── Safety ───────────────────────────────────────────────────────────────
+    avoid_print: true                   # use debugPrint() instead
+    avoid_dynamic_calls: true           # catches untyped JS interop leaks
+    cancel_subscriptions: true          # StreamSubscriptions must be cancelled
+    close_sinks: true                   # StreamControllers/IOSinks must be closed
+
+    # ── Best practices ───────────────────────────────────────────────────────
+    prefer_const_constructors: true
+    prefer_const_declarations: true
+    prefer_final_fields: true
+    prefer_final_locals: true
+    unnecessary_await_in_return: true
+    unnecessary_lambdas: true
+    use_string_buffers: true
