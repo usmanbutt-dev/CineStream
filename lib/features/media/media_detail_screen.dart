@@ -20,7 +20,7 @@ import '../../data/database/app_database.dart';
 import '../../data/database/database_provider.dart';
 import '../../data/repositories/library_repository.dart';
 import '../../data/services/download_service.dart';
-import '../../data/services/tracking_sync_service.dart';
+
 import '../../extensions/api/extension_api.dart';
 import '../../extensions/models/extension_manifest.dart';
 import '../../extensions/repository/extension_repository.dart';
@@ -56,11 +56,7 @@ class _AnimeDetailScreenState extends ConsumerState<AnimeDetailScreen> {
     _loadDetail();
   }
 
-  /// Whether the widget's extensionId is a tracking source (not a real extension).
-  bool get _isTrackingSource {
-    const trackingSources = {'_tracking', 'anilist', 'mal'};
-    return trackingSources.contains(widget.extensionId);
-  }
+
 
   Future<void> _loadDetail() async {
     setState(() {
@@ -73,7 +69,7 @@ class _AnimeDetailScreenState extends ConsumerState<AnimeDetailScreen> {
 
       // If this is a tracking-imported anime, search installed extensions
       // for a match so we can show episodes and enable streaming.
-      if (_isTrackingSource || !repo.isLoaded(widget.extensionId)) {
+      if (!repo.isLoaded(widget.extensionId)) {
         final resolved = await _resolveViaExtensionSearch(repo);
         if (resolved) return; // _detail was set inside
       }
@@ -128,8 +124,7 @@ class _AnimeDetailScreenState extends ConsumerState<AnimeDetailScreen> {
               coverUrl: Value(detail.coverUrl ?? anime.coverUrl),
               bannerUrl: Value(detail.bannerUrl ?? anime.bannerUrl),
               synopsis: Value(detail.synopsis ?? anime.synopsis),
-              anilistId: Value(anime.anilistId),
-              malId: Value(anime.malId),
+
               updatedAt: Value(
                   DateTime.now().millisecondsSinceEpoch ~/ 1000),
             ));
@@ -204,12 +199,7 @@ class _AnimeDetailScreenState extends ConsumerState<AnimeDetailScreen> {
             detail: detail,
             status: status,
           );
-          // Push status change to connected trackers (AniList/MAL)
-          ref.read(trackingSyncProvider.notifier).onStatusChanged(
-                extensionId: widget.extensionId,
-                animeId: widget.animeId,
-                status: status,
-              );
+
           if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -223,11 +213,7 @@ class _AnimeDetailScreenState extends ConsumerState<AnimeDetailScreen> {
         onRemove: currentEntry != null
             ? () async {
                 Navigator.pop(ctx);
-                // Push removal to connected trackers before deleting locally
-                ref.read(trackingSyncProvider.notifier).onRemovedFromLibrary(
-                      extensionId: widget.extensionId,
-                      animeId: widget.animeId,
-                    );
+
                 await ref.read(libraryRepositoryProvider).removeFromLibrary(
                       extensionId: widget.extensionId,
                       animeId: widget.animeId,
@@ -392,11 +378,7 @@ class _AnimeDetailScreenState extends ConsumerState<AnimeDetailScreen> {
                     theme: theme,
                     isMetadataOnly: metadataOnly,
                     onTap: () {
-                      // Metadata-only extensions produce stub episode IDs
-                      // (e.g. "mal:21:ep:1", "anilist:12345:ep:1") that have
-                      // no real stream. Show a snackbar instead of opening the
-                      // player, which would just show "No video sources".
-                      if (_isMetadataOnlyEpisodeId(episode.id)) {
+                      if (episode.id.startsWith('mal:') || episode.id.startsWith('anilist:')) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text(

@@ -15,7 +15,7 @@ import '../../features/library/library_screen.dart';
 import '../../features/downloads/downloads_screen.dart';
 import '../../features/settings/settings_screen.dart';
 import '../../features/settings/extension_management_screen.dart';
-import '../../features/settings/tracking_accounts_screen.dart';
+
 import '../../features/media/media_detail_screen.dart';
 import '../utils/platform_utils.dart';
 
@@ -128,7 +128,7 @@ final appRouter = GoRouter(
       ],
     ),
 
-    // ── Anime Detail (full-screen, outside shell) ──
+    // ── Media Detail (full-screen, outside shell) ──
     GoRoute(
       parentNavigatorKey: _rootNavigatorKey,
       path: '/anime/:extensionId/:animeId',
@@ -150,13 +150,6 @@ final appRouter = GoRouter(
       parentNavigatorKey: _rootNavigatorKey,
       path: '/settings/extensions',
       builder: (context, state) => const ExtensionManagementScreen(),
-    ),
-
-    // ── Tracking Accounts ──
-    GoRoute(
-      parentNavigatorKey: _rootNavigatorKey,
-      path: '/settings/tracking',
-      builder: (context, state) => const TrackingAccountsScreen(),
     ),
   ],
 );

@@ -1,34 +1,7 @@
 /// CineStream — App-wide constants and configuration.
 library;
 
-/// API base URLs for tracking services.
-class ApiUrls {
-  ApiUrls._();
 
-  /// AniList GraphQL endpoint.
-  static const String anilistGraphQL = 'https://graphql.anilist.co';
-
-  /// AniList OAuth authorization URL.
-  static const String anilistAuth = 'https://anilist.co/api/v2/oauth/authorize';
-
-  /// AniList OAuth token URL.
-  static const String anilistToken = 'https://anilist.co/api/v2/oauth/token';
-
-  /// MyAnimeList API v2 base URL.
-  static const String malApi = 'https://api.myanimelist.net/v2';
-
-  /// MyAnimeList OAuth authorization URL.
-  static const String malAuth = 'https://myanimelist.net/v1/oauth2/authorize';
-
-  /// MyAnimeList OAuth token URL.
-  static const String malToken = 'https://myanimelist.net/v1/oauth2/token';
-
-  /// Kitsu API base URL.
-  static const String kitsuApi = 'https://kitsu.app/api/edge';
-
-  /// Kitsu OAuth token URL.
-  static const String kitsuToken = 'https://kitsu.io/api/oauth/token';
-}
 
 /// Application metadata.
 class AppConstants {

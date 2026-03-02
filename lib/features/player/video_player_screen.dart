@@ -22,7 +22,7 @@ import '../../core/theme/colors.dart';
 import '../../core/utils/error_utils.dart';
 import '../../core/utils/hls_utils.dart';
 import '../../data/repositories/library_repository.dart';
-import '../../data/services/tracking_sync_service.dart';
+
 import '../../data/services/watch_progress_service.dart';
 import '../../extensions/api/extension_api.dart';
 import '../../extensions/models/extension_manifest.dart';
@@ -311,12 +311,7 @@ class _VideoPlayerScreenState extends ConsumerState<VideoPlayerScreen> {
           newProgress: widget.episodeNumber,
         );
 
-    // Push progress to connected tracking services (AniList/MAL).
-    ref.read(trackingSyncProvider.notifier).onEpisodeCompleted(
-          extensionId: widget.extensionId,
-          animeId: widget.animeId,
-          episodeNumber: widget.episodeNumber,
-        );
+
 
     // Auto-play next episode if available.
     if (widget.episodes != null && widget.currentEpisodeIndex != null) {

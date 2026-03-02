@@ -14,7 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../core/constants.dart';
 import '../../core/theme/colors.dart';
 import '../../data/database/database_provider.dart';
-import '../../data/services/tracking_service.dart';
+
 
 // ── Player settings provider ─────────────────────────────────────────────────
 
@@ -184,19 +184,7 @@ class SettingsScreen extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.symmetric(vertical: 8),
         children: [
-          // ── Tracking section ──
-          _SectionHeader(title: 'Tracking', theme: theme),
-          _SettingsTile(
-            icon: Icons.sync_rounded,
-            title: 'Tracking Accounts',
-            subtitle: 'Connect AniList, MyAnimeList',
-            trailing: const Icon(
-              Icons.chevron_right_rounded,
-              color: CineColors.textTertiary,
-            ),
-            onTap: () => context.push('/settings/tracking'),
-          ),
-          const Divider(),
+
 
           // ── Extensions section ──
           _SectionHeader(title: 'Extensions', theme: theme),
@@ -312,38 +300,7 @@ class SettingsScreen extends ConsumerWidget {
               action: () => _clearDownloads(ref),
             ),
           ),
-          _SettingsTile(
-            icon: Icons.link_off_rounded,
-            title: 'Disconnect AniList & Clear Data',
-            subtitle: 'Remove AniList account and all imported anime',
-            trailing: const Icon(Icons.chevron_right_rounded,
-                color: CineColors.textTertiary),
-            onTap: () => _confirmAction(
-              context,
-              ref,
-              title: 'Disconnect AniList?',
-              message:
-                  'Your AniList account will be disconnected and all anime '
-                  'imported from AniList will be removed from your library.',
-              action: () => _disconnectAndClear(ref, 'anilist'),
-            ),
-          ),
-          _SettingsTile(
-            icon: Icons.link_off_rounded,
-            title: 'Disconnect MAL & Clear Data',
-            subtitle: 'Remove MAL account and all imported anime',
-            trailing: const Icon(Icons.chevron_right_rounded,
-                color: CineColors.textTertiary),
-            onTap: () => _confirmAction(
-              context,
-              ref,
-              title: 'Disconnect MyAnimeList?',
-              message:
-                  'Your MAL account will be disconnected and all anime '
-                  'imported from MAL will be removed from your library.',
-              action: () => _disconnectAndClear(ref, 'mal'),
-            ),
-          ),
+
           _SettingsTile(
             icon: Icons.warning_amber_rounded,
             title: 'Clear Everything',
@@ -357,7 +314,7 @@ class SettingsScreen extends ConsumerWidget {
               title: 'Clear All Data?',
               message:
                   'This will delete your entire library, all downloads, '
-                  'watch progress, and disconnect all tracking accounts. '
+                  'and watch progress. '
                   'This cannot be undone.',
               isDangerous: true,
               action: () => _clearEverything(ref),
@@ -675,26 +632,10 @@ class SettingsScreen extends ConsumerWidget {
     }
   }
 
-  Future<void> _disconnectAndClear(WidgetRef ref, String service) async {
-    final db = ref.read(databaseProvider);
-    final notifier = ref.read(trackingProvider.notifier);
-    // Disconnect the account first.
-    if (service == 'anilist') {
-      await notifier.disconnectAnilist();
-    } else {
-      await notifier.disconnectMal();
-    }
-    // Remove all anime imported from that service.
-    await db.deleteTrackingData(service);
-  }
+
 
   Future<void> _clearEverything(WidgetRef ref) async {
     final db = ref.read(databaseProvider);
-    final notifier = ref.read(trackingProvider.notifier);
-    // Disconnect all tracking accounts.
-    final tracking = ref.read(trackingProvider);
-    if (tracking.anilistConnected) await notifier.disconnectAnilist();
-    if (tracking.malConnected) await notifier.disconnectMal();
     // Wipe all DB data.
     await db.deleteAllUserData();
     // Delete downloaded files from disk.
@@ -709,7 +650,7 @@ class SettingsScreen extends ConsumerWidget {
     // Clear watch progress from SharedPreferences.
     final prefs = await SharedPreferences.getInstance();
     final wpKeys =
-        prefs.getKeys().where((k) => k.startsWith('niji_wp__')).toList();
+        prefs.getKeys().where((k) => k.startsWith('cine_wp__')).toList();
     for (final key in wpKeys) {
       await prefs.remove(key);
     }

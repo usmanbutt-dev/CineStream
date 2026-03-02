@@ -33,9 +33,7 @@ class AnimeTable extends Table {
   RealColumn get rating => real().nullable()();
   /// JSON array stored as string, e.g. '["Action","Adventure"]'
   TextColumn get genres => text().nullable()();
-  IntColumn get anilistId => integer().nullable()();
-  IntColumn get malId => integer().nullable()();
-  TextColumn get kitsuId => text().nullable()();
+
   /// Unix timestamp (seconds)
   IntColumn get updatedAt => integer().withDefault(Constant(DateTime.now().millisecondsSinceEpoch ~/ 1000))();
 
@@ -108,46 +106,6 @@ class DownloadTasksTable extends Table {
   IntColumn get createdAt => integer().withDefault(Constant(DateTime.now().millisecondsSinceEpoch ~/ 1000))();
 }
 
-// ═══════════════════════════════════════════════════════════════════════
-// TABLE: tracking_accounts
-// Stores OAuth account metadata (tokens live in FlutterSecureStorage).
-// ═══════════════════════════════════════════════════════════════════════
-class TrackingAccountsTable extends Table {
-  @override
-  String get tableName => 'tracking_accounts';
-
-  /// "anilist", "mal", "kitsu"
-  TextColumn get id => text()();
-  TextColumn get service => text()();
-  TextColumn get username => text().nullable()();
-  /// Tokens are intentionally nullable — sensitive tokens are stored in
-  /// FlutterSecureStorage, not here.
-  TextColumn get accessToken => text().nullable()();
-  TextColumn get refreshToken => text().nullable()();
-  IntColumn get tokenExpiresAt => integer().nullable()();
-
-  @override
-  Set<Column> get primaryKey => {id};
-}
-
-// ═══════════════════════════════════════════════════════════════════════
-// TABLE: tracking_sync_queue
-// Offline-first queue for tracking updates.
-// ═══════════════════════════════════════════════════════════════════════
-class TrackingSyncQueueTable extends Table {
-  @override
-  String get tableName => 'tracking_sync_queue';
-
-  IntColumn get id => integer().autoIncrement()();
-  TextColumn get trackingAccountId => text().references(TrackingAccountsTable, #id)();
-  TextColumn get animeId => text().references(AnimeTable, #id)();
-  /// update_status, update_progress, update_score
-  TextColumn get action => text()();
-  /// JSON payload
-  TextColumn get payload => text()();
-  IntColumn get createdAt => integer().withDefault(Constant(DateTime.now().millisecondsSinceEpoch ~/ 1000))();
-  IntColumn get attempts => integer().withDefault(const Constant(0))();
-}
 
 // ═══════════════════════════════════════════════════════════════════════
 // TABLE: extensions

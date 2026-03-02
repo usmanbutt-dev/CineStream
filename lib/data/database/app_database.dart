@@ -34,8 +34,6 @@ class LibraryItem {
     UserLibraryTable,
     WatchProgressTable,
     DownloadTasksTable,
-    TrackingAccountsTable,
-    TrackingSyncQueueTable,
     ExtensionsTable,
     ExtensionReposTable,
   ],
@@ -50,7 +48,7 @@ class AppDatabase extends _$AppDatabase {
   /// Bump this when you change the schema. drift will run the
   /// [migration] strategy to update existing databases.
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 4;
 
   @override
   MigrationStrategy get migration {
@@ -82,6 +80,11 @@ class AppDatabase extends _$AppDatabase {
         if (from < 3) {
           // Add cover_url column for the downloads grid redesign.
           await m.addColumn(downloadTasksTable, downloadTasksTable.coverUrl);
+        }
+        if (from < 4) {
+          // Remove tracking tables and columns (CineStream fork).
+          await m.deleteTable('tracking_sync_queue');
+          await m.deleteTable('tracking_accounts');
         }
       },
     );
@@ -266,78 +269,17 @@ class AppDatabase extends _$AppDatabase {
     }
   }
 
-  // ═══════════════════════════════════════════════════════════════════
-  // Anime lookup helpers (for tracking sync deduplication)
-  // ═══════════════════════════════════════════════════════════════════
+  // ═════════════════════════════════════════════════════════════════
+  // Media lookup helpers
+  // ═════════════════════════════════════════════════════════════════
 
-  /// Get an anime record by its primary key.
+  /// Get a media record by its primary key.
   Future<AnimeTableData?> getAnimeById(String id) =>
       (select(animeTable)..where((t) => t.id.equals(id))).getSingleOrNull();
 
-  /// Find an anime by its AniList ID (for dedup when syncing MAL after AniList).
-  Future<AnimeTableData?> getAnimeByAnilistId(int anilistId) =>
-      (select(animeTable)..where((t) => t.anilistId.equals(anilistId)))
-          .getSingleOrNull();
-
-  /// Find an anime by its MAL ID (for dedup when syncing AniList after MAL).
-  Future<AnimeTableData?> getAnimeByMalId(int malId) =>
-      (select(animeTable)..where((t) => t.malId.equals(malId)))
-          .getSingleOrNull();
-
-  // ═══════════════════════════════════════════════════════════════════
-  // Tracking sync queue helpers
-  // ═══════════════════════════════════════════════════════════════════
-
-  /// Get all pending sync queue items ordered by creation time.
-  Future<List<TrackingSyncQueueTableData>> getAllSyncQueueItems() =>
-      (select(trackingSyncQueueTable)
-            ..orderBy([(t) => OrderingTerm.asc(t.createdAt)]))
-          .get();
-
-  /// Insert a new sync queue item.
-  Future<void> insertSyncQueueItem(
-          TrackingSyncQueueTableCompanion companion) =>
-      into(trackingSyncQueueTable).insert(companion);
-
-  /// Delete a sync queue item by id (after successful push).
-  Future<void> deleteSyncQueueItem(int id) =>
-      (delete(trackingSyncQueueTable)..where((t) => t.id.equals(id))).go();
-
-  /// Increment the attempt counter for a failed sync queue item.
-  Future<void> incrementSyncQueueAttempts(int id) async {
-    final item = await (select(trackingSyncQueueTable)
-          ..where((t) => t.id.equals(id)))
-        .getSingleOrNull();
-    if (item == null) return;
-    await (update(trackingSyncQueueTable)..where((t) => t.id.equals(id)))
-        .write(TrackingSyncQueueTableCompanion(
-      attempts: Value(item.attempts + 1),
-    ));
-  }
-
-  /// Delete sync queue items that have exceeded max retries.
-  Future<void> deleteExpiredSyncQueueItems({int maxAttempts = 3}) =>
-      (delete(trackingSyncQueueTable)
-            ..where((t) => t.attempts.isBiggerOrEqualValue(maxAttempts)))
-          .go();
-
-  // ═══════════════════════════════════════════════════════════════════
-  // Tracking account helpers
-  // ═══════════════════════════════════════════════════════════════════
-
-  /// Upsert a tracking account (insert or replace by id).
-  Future<void> upsertTrackingAccount(TrackingAccountsTableCompanion row) =>
-      into(trackingAccountsTable).insertOnConflictUpdate(row);
-
-  /// Delete a tracking account by service id (e.g. "anilist", "mal").
-  Future<int> deleteTrackingAccount(String serviceId) =>
-      (delete(trackingAccountsTable)
-            ..where((t) => t.id.equals(serviceId)))
-          .go();
-
-  // ═══════════════════════════════════════════════════════════════════
+  // ═════════════════════════════════════════════════════════════════
   // Download helpers
-  // ═══════════════════════════════════════════════════════════════════
+  // ═════════════════════════════════════════════════════════════════
 
   /// Watch all download tasks ordered by creation time (newest first).
   Stream<List<DownloadTasksTableData>> watchDownloadTasks() {
@@ -358,43 +300,18 @@ class AppDatabase extends _$AppDatabase {
   Future<int> deleteDownloadTask(int id) =>
       (delete(downloadTasksTable)..where((t) => t.id.equals(id))).go();
 
-  // ═══════════════════════════════════════════════════════════════════
+  // ═════════════════════════════════════════════════════════════════
   // Bulk data management helpers
-  // ═══════════════════════════════════════════════════════════════════
+  // ═════════════════════════════════════════════════════════════════
 
   /// Delete all download tasks from the database.
   Future<int> deleteAllDownloadTasks() => delete(downloadTasksTable).go();
 
-  /// Delete all anime and library entries imported from a specific tracking
-  /// service (extensionId = '_tracking' and id starts with [prefix]).
-  Future<void> deleteTrackingData(String service) async {
-    // Tracking-imported anime have IDs like "anilist:123" or "mal:456",
-    // and extensionId = '_tracking'.
-    final prefix = '$service:';
-    final imported = await (select(animeTable)
-          ..where(
-              (t) => t.extensionId.equals('_tracking') & t.id.like('$prefix%')))
-        .get();
-    for (final anime in imported) {
-      await (delete(userLibraryTable)
-            ..where((t) => t.animeId.equals(anime.id)))
-          .go();
-      await (delete(animeTable)..where((t) => t.id.equals(anime.id))).go();
-    }
-    // Also clear the sync queue for this service
-    await (delete(trackingSyncQueueTable)
-          ..where((t) => t.trackingAccountId.equals(service)))
-        .go();
-  }
-
-  /// Delete ALL user data: library, anime cache, watch progress, downloads,
-  /// tracking accounts, sync queue.
+  /// Delete ALL user data: library, media cache, watch progress, downloads.
   Future<void> deleteAllUserData() async {
     await delete(userLibraryTable).go();
     await delete(watchProgressTable).go();
     await delete(downloadTasksTable).go();
-    await delete(trackingSyncQueueTable).go();
-    await delete(trackingAccountsTable).go();
     await delete(animeTable).go();
   }
 }
