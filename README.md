@@ -4,6 +4,8 @@
 
 CineStream is an open-source, cross-platform movie and TV show streaming app built with Flutter. Browse, watch, track, and download movies & series — all from a single app on Android, Windows, and Linux.
 
+**[Explore the CineStream website](https://usmanbutt-dev.github.io/CineStream/)**
+
 ## Download
 
 [![Android](https://img.shields.io/badge/Android-APK-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://github.com/usmanbutt-dev/CineStream/releases/latest/download/CineStream-android.apk)
